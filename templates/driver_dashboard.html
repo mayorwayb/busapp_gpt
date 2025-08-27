@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Driver • Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+  </head>
+  <body data-active="{{ active|default('dashboard') }}">
+    <div class="app">
+      <aside id="sidebar" class="sidebar">
+        <div class="brand">
+          <div class="logo">🚍 ABC Transport</div>
+          <button class="toggle js-toggle-sidebar">☰</button>
+        </div>
+
+        <div class="section-title">Driver</div>
+        <nav>
+          <a href="{{ url_for('dashboard') }}" data-item="dashboard"
+            >🏠 Dashboard</a
+          >
+          <a href="#" data-item="assigned_trips">🗺 Assigned Trips</a>
+          <a href="{{ url_for('profile') }}" data-item="profile">👤 Profile</a>
+          <a class="logout" href="{{ url_for('logout') }}">🔓 Logout</a>
+        </nav>
+      </aside>
+
+      <div id="main">
+        <header class="topbar">
+          <div class="page-title">
+            <button class="toggle js-toggle-sidebar">☰</button>
+            <h1>Hello, {{ name }}</h1>
+          </div>
+          <div class="kbd">Driver</div>
+        </header>
+
+        <main class="container">
+          <section class="metrics">
+            <div class="card">
+              <h3>Assigned Today</h3>
+              <div class="value">{{ assigned_trips|length }}</div>
+              <div class="sub">Trips</div>
+            </div>
+            <div class="card">
+              <h3>Current</h3>
+              <div class="value">{{ '1' if current else '0' }}</div>
+              <div class="sub">Active trip</div>
+            </div>
+            <div class="card">
+              <h3>Status</h3>
+              <div class="value">Ready</div>
+              <div class="sub">On duty</div>
+            </div>
+            <div class="card">
+              <h3>Quick action</h3>
+              <button class="btn primary" type="button">Start Trip</button>
+            </div>
+          </section>
+
+          <section class="grid">
+            <div class="card span-6">
+              <h3>Today's Assigned Trips</h3>
+              {% if assigned_trips %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Route</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for t in assigned_trips %}
+                  <tr>
+                    <td>{{ t.id }}</td>
+                    <td>{{ t.origin }} → {{ t.destination }}</td>
+                    <td>{{ t.trip_date }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% else %}
+              <p class="sub">No assigned trips.</p>
+              {% endif %}
+            </div>
+
+            <div class="card span-6">
+              <h3>Current Trip</h3>
+              {% if current %}
+              <p>ID {{ current.id }} — Status: {{ current.status }}</p>
+              <form method="POST" action="#">
+                <select class="select" name="status">
+                  <option value="on_time">On Time</option>
+                  <option value="delayed">Delayed</option>
+                  <option value="finished">Finished</option>
+                </select>
+                <button class="btn success" type="submit">Update</button>
+              </form>
+              {% else %}
+              <p class="sub">Not on a trip right now.</p>
+              {% endif %}
+            </div>
+          </section>
+
+          <div class="card span-12" style="margin-top: 14px">
+            <h3>Route Map</h3>
+            <div
+              style="
+                height: 220px;
+                border: 1px dashed var(--border);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              Map placeholder
+            </div>
+          </div>
+
+          <div class="footer">© ABC Transport</div>
+        </main>
+      </div>
+    </div>
+
+    <script
+      defer
+      src="{{ url_for('static', filename='js/dashboard.js') }}"
+    ></script>
+  </body>
+</html>

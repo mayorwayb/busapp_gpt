@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Passenger • Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+  </head>
+  <body data-active="{{ active|default('dashboard') }}">
+    <div class="app">
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar">
+        <div class="brand">
+          <div class="logo">🚍 ABC Transport</div>
+          <button class="toggle js-toggle-sidebar" aria-label="toggle">
+            ☰
+          </button>
+        </div>
+
+        <div class="section-title">Passenger</div>
+        <nav>
+          <a href="{{ url_for('dashboard') }}" data-item="dashboard"
+            >🏠 Dashboard</a
+          >
+          <a href="{{ url_for('book_trip') }}" data-item="book_trip"
+            >📅 Book a Trip</a
+          >
+          <a href="{{ url_for('view_bookings') }}" data-item="view_bookings"
+            >🧾 My Trips</a
+          >
+          <a href="{{ url_for('send_alert') }}" data-item="send_alert"
+            >🚨 Emergency Alert</a
+          >
+          <a href="{{ url_for('profile') }}" data-item="profile">👤 Profile</a>
+          <a class="logout" href="{{ url_for('logout') }}">🔓 Logout</a>
+        </nav>
+      </aside>
+
+      <!-- Main -->
+      <div id="main">
+        <header class="topbar">
+          <div class="page-title">
+            <button class="toggle js-toggle-sidebar">☰</button>
+            <h1>Welcome, {{ name }}</h1>
+          </div>
+          <div class="kbd">Passenger</div>
+        </header>
+
+        <main class="container">
+          <section class="metrics">
+            <div class="card">
+              <h3>Upcoming Trips</h3>
+              <div class="value">{{ trips|length }}</div>
+              <div class="sub">Trips scheduled</div>
+            </div>
+            <div class="card">
+              <h3>Completed</h3>
+              <div class="value">{{ history|length }}</div>
+              <div class="sub">Trips completed</div>
+            </div>
+            <div class="card">
+              <h3>Status</h3>
+              <div class="value">Active</div>
+              <div class="sub">Account</div>
+            </div>
+            <div class="card">
+              <h3>Quick action</h3>
+              <a class="btn primary" href="{{ url_for('book_trip') }}"
+                >Book a Trip</a
+              >
+            </div>
+          </section>
+
+          <section class="grid">
+            <div class="card span-6">
+              <h3>Next trips</h3>
+              {% if trips %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Route</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for t in trips %}
+                  <tr>
+                    <td>{{ t.trip_date }}</td>
+                    <td>{{ t.origin }} → {{ t.destination }}</td>
+                    <td>{{ t.status }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% else %}
+              <p class="sub">No upcoming trips.</p>
+              {% endif %}
+            </div>
+
+            <div class="card span-6">
+              <h3>Emergency</h3>
+              <p class="sub">Notify security and your emergency contact.</p>
+              <form method="POST" action="{{ url_for('send_alert') }}">
+                <button class="btn danger" type="submit">Send Alert</button>
+              </form>
+            </div>
+
+            <div class="card span-12">
+              <h3>Trip history</h3>
+              {% if history %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Route</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for h in history %}
+                  <tr>
+                    <td>{{ h.trip_date }}</td>
+                    <td>{{ h.origin }} → {{ h.destination }}</td>
+                    <td>{{ h.status }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% else %}
+              <p class="sub">No trip history yet.</p>
+              {% endif %}
+            </div>
+          </section>
+
+          <div class="footer">© {{ (now() if false) }} ABC Transport</div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Sidebar JS -->
+    <script
+      defer
+      src="{{ url_for('static', filename='js/dashboard.js') }}"
+    ></script>
+  </body>
+</html>

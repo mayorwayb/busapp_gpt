@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Book Trip • Passenger</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+  </head>
+  <body data-active="book_trip">
+    <div class="app">
+      <aside id="sidebar" class="sidebar">
+        <div class="brand">
+          <div class="logo">🚍 ABC Transport</div>
+          <button class="toggle js-toggle-sidebar">☰</button>
+        </div>
+        <div class="section-title">Passenger</div>
+        <nav>
+          <a href="{{ url_for('dashboard') }}" data-item="dashboard"
+            >🏠 Dashboard</a
+          >
+          <a href="{{ url_for('book_trip') }}" data-item="book_trip"
+            >📅 Book a Trip</a
+          >
+          <a href="{{ url_for('view_bookings') }}" data-item="view_bookings"
+            >🧾 My Trips</a
+          >
+          <a href="{{ url_for('send_alert') }}" data-item="send_alert"
+            >🚨 Emergency Alert</a
+          >
+          <a href="{{ url_for('profile') }}" data-item="profile">👤 Profile</a>
+          <a class="logout" href="{{ url_for('logout') }}">🔓 Logout</a>
+        </nav>
+      </aside>
+
+      <div id="main">
+        <header class="topbar">
+          <div class="page-title">
+            <button class="toggle js-toggle-sidebar">☰</button>
+            <h1>Book a Trip</h1>
+          </div>
+          <div class="kbd">Passenger</div>
+        </header>
+
+        <main class="container">
+          <div class="card span-6">
+            <form method="POST" class="form">
+              <div>
+                <label class="label">Date</label>
+                <input class="input" type="date" name="trip_date" required />
+              </div>
+              <div>
+                <label class="label">From</label>
+                <input
+                  class="input"
+                  type="text"
+                  name="origin"
+                  placeholder="Origin"
+                  required
+                />
+              </div>
+              <div>
+                <label class="label">To</label>
+                <input
+                  class="input"
+                  type="text"
+                  name="destination"
+                  placeholder="Destination"
+                  required
+                />
+              </div>
+              <button class="btn primary" type="submit">Book Trip</button>
+            </form>
+          </div>
+        </main>
+
+        <div class="footer">© ABC Transport</div>
+      </div>
+    </div>
+    <script
+      defer
+      src="{{ url_for('static', filename='js/dashboard.js') }}"
+    ></script>
+  </body>
+</html>

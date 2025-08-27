@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ABC Transport • Home</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/auth.css') }}"
+    />
+  </head>
+  <body>
+    <div class="auth-card">
+      <div class="header">
+        <div class="title">ABC Transport</div>
+        <span class="badge">BETA</span>
+      </div>
+
+      <h2 style="margin: 0 0 6px">Welcome</h2>
+      <p class="small" style="margin-top: 0">
+        A unified portal for passengers, drivers, and admins.
+      </p>
+
+      <div class="actions" style="margin-top: 14px">
+        <a class="btn" href="{{ url_for('signup') }}">Create account</a>
+        <a class="btn primary" href="{{ url_for('login') }}">Log in</a>
+      </div>
+    </div>
+  </body>
+</html>

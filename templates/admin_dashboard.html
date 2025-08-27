@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Admin • Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+  </head>
+  <body data-active="{{ active|default('dashboard') }}">
+    <div class="app">
+      <aside id="sidebar" class="sidebar">
+        <div class="brand">
+          <div class="logo">🚍 ABC Transport</div>
+          <button class="toggle js-toggle-sidebar">☰</button>
+        </div>
+
+        <div class="section-title">Admin</div>
+        <nav>
+          <a href="{{ url_for('dashboard') }}" data-item="dashboard"
+            >🏠 Dashboard</a
+          >
+          <a href="{{ url_for('manage_users') }}" data-item="manage_users"
+            >👥 Manage Users</a
+          >
+          <a href="{{ url_for('trips_overview') }}" data-item="trips_overview"
+            >🧭 Trips Overview</a
+          >
+          <a href="{{ url_for('reports') }}" data-item="reports">📊 Reports</a>
+          <a href="{{ url_for('profile') }}" data-item="profile">👤 Profile</a>
+          <a class="logout" href="{{ url_for('logout') }}">🔓 Logout</a>
+        </nav>
+      </aside>
+
+      <div id="main">
+        <header class="topbar">
+          <div class="page-title">
+            <button class="toggle js-toggle-sidebar">☰</button>
+            <h1>Admin: {{ name }}</h1>
+          </div>
+          <div class="kbd">Admin</div>
+        </header>
+
+        <main class="container">
+          <section class="metrics">
+            <div class="card">
+              <h3>Total Users</h3>
+              <div class="value">{{ total_users or 0 }}</div>
+              <div class="sub">All roles</div>
+            </div>
+            <div class="card">
+              <h3>Passengers</h3>
+              <div class="value">{{ total_passengers or 0 }}</div>
+              <div class="sub">Registered</div>
+            </div>
+            <div class="card">
+              <h3>Drivers</h3>
+              <div class="value">{{ total_drivers or 0 }}</div>
+              <div class="sub">Registered</div>
+            </div>
+            <div class="card">
+              <h3>Bookings</h3>
+              <div class="value">{{ total_bookings or 0 }}</div>
+              <div class="sub">In system</div>
+            </div>
+          </section>
+
+          <section class="grid">
+            <div class="card span-6">
+              <h3>Recent Users</h3>
+              {% if users %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for u in users[:8] %}
+                  <tr>
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.role }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% else %}
+              <p class="sub">No user data loaded.</p>
+              {% endif %}
+            </div>
+
+            <div class="card span-6">
+              <h3>Recent Bookings</h3>
+              {% if bookings %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Route</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for b in bookings[:8] %}
+                  <tr>
+                    <td>{{ b.id }}</td>
+                    <td>{{ b.trip_date }}</td>
+                    <td>{{ b.origin }} → {{ b.destination }}</td>
+                    <td>{{ b.status }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% else %}
+              <p class="sub">No booking data loaded.</p>
+              {% endif %}
+            </div>
+          </section>
+
+          <div class="footer">© ABC Transport</div>
+        </main>
+      </div>
+    </div>
+
+    <script
+      defer
+      src="{{ url_for('static', filename='js/dashboard.js') }}"
+    ></script>
+  </body>
+</html>

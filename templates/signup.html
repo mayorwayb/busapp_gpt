@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sign up • ABC Transport</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/auth.css') }}"
+    />
+  </head>
+  <body>
+    <div class="auth-card">
+      <div class="header">
+        <div class="title">Create your account</div>
+        <span class="badge">Free</span>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for cat,msg in messages %}
+      <div class="flash">{{ msg }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form method="POST">
+        <label class="label">Full name</label>
+        <input
+          class="input"
+          type="text"
+          name="name"
+          placeholder="Jane Doe"
+          required
+        />
+
+        <label class="label">Email</label>
+        <input
+          class="input"
+          type="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+        />
+
+        <label class="label">Password</label>
+        <input
+          class="input"
+          type="password"
+          name="password"
+          placeholder="Choose a strong password"
+          required
+        />
+
+        <label class="label">Role</label>
+        <select class="select" name="role" required>
+          <option value="passenger">Passenger</option>
+          <option value="driver">Driver</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        <div class="actions">
+          <a class="btn" href="{{ url_for('home') }}">← Home</a>
+          <button class="btn primary" type="submit">Create account</button>
+        </div>
+      </form>
+
+      <p class="small" style="margin-top: 12px">
+        Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+      </p>
+    </div>
+  </body>
+</html>

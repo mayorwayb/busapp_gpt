@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Emergency Alert</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+  </head>
+  <body data-active="send_alert">
+    <div class="app">
+      <aside id="sidebar" class="sidebar">
+        <div class="brand">
+          <div class="logo">🚍 ABC Transport</div>
+          <button class="toggle js-toggle-sidebar">☰</button>
+        </div>
+        <div class="section-title">
+          {{ session.get('role','User')|capitalize }}
+        </div>
+        <nav>
+          <a href="{{ url_for('dashboard') }}" data-item="dashboard"
+            >🏠 Dashboard</a
+          >
+          {% if session.get('role') == 'passenger' %}
+          <a href="{{ url_for('book_trip') }}" data-item="book_trip"
+            >📅 Book a Trip</a
+          >
+          <a href="{{ url_for('view_bookings') }}" data-item="view_bookings"
+            >🧾 My Trips</a
+          >
+          {% endif %}
+          <a href="{{ url_for('send_alert') }}" data-item="send_alert"
+            >🚨 Emergency Alert</a
+          >
+          <a href="{{ url_for('profile') }}" data-item="profile">👤 Profile</a>
+          <a class="logout" href="{{ url_for('logout') }}">🔓 Logout</a>
+        </nav>
+      </aside>
+
+      <div id="main">
+        <header class="topbar">
+          <div class="page-title">
+            <button class="toggle js-toggle-sidebar">☰</button>
+            <h1>Send Emergency Alert</h1>
+          </div>
+          <div class="kbd">{{ session.get('role','User')|capitalize }}</div>
+        </header>
+
+        <main class="container">
+          <div class="card span-6">
+            <p class="sub">
+              This offline demo will show a success message when you submit.
+            </p>
+            <form method="POST" class="form">
+              <div>
+                <label class="label">Message (optional)</label>
+                <textarea
+                  class="textarea"
+                  name="message"
+                  rows="4"
+                  placeholder="Briefly describe the situation..."
+                ></textarea>
+              </div>
+              <button class="btn danger" type="submit">Send Alert</button>
+            </form>
+          </div>
+        </main>
+
+        <div class="footer">© ABC Transport</div>
+      </div>
+    </div>
+    <script
+      defer
+      src="{{ url_for('static', filename='js/dashboard.js') }}"
+    ></script>
+  </body>
+</html>
